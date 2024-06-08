@@ -9,7 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Models\ManagementAccess\DetailUser;
+use App\Models\ManagementAccess\RoleUser;
+use App\Models\Operational\Appointment;
+ 
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -58,4 +61,15 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function detail_user(){
+        return $this->hasOne(DetailUser::class, 'user_id');
+    }
+    public function role_user(){
+        return $this->hasOne(RoleUser::class, 'user_id');
+    }
+
+    public function appointment(){
+        return $this->hasMany(Appointment::class, 'user_id');
+    }
 }
